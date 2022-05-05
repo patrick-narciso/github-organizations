@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -7,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import styled from "@emotion/styled";
 import { CardActionArea } from "@mui/material";
+
 import { getOrganizations } from "../services/organizations";
 
 const Container = styled.div`
@@ -14,6 +16,10 @@ const Container = styled.div`
   justify-content: center;
   margin: 80px;
   flex-wrap: wrap;
+  a {
+    text-decoration: none;
+    color: black;
+  }
 `;
 
 function Organizations() {
@@ -70,31 +76,31 @@ function Organizations() {
               key={id}
               sx={{ width: 300, height: 300, marginRight: 5, marginBottom: 5 }}
             >
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={avatar_url}
-                  alt="organization image"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {login}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {description}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
+              <Link to={`/organization/${login}`}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image={avatar_url}
+                    alt="organization image"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {login}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {description ? description : "This organization doesn't have description"}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Link>
             </Card>
           ))
         ) : (
           <CircularProgress />
         )}
         {isFetching && (
-          <Typography variant="h6">
-            Loading more organizations...
-          </Typography>
+          <Typography variant="h6">Loading more organizations...</Typography>
         )}
       </Container>
     </>
